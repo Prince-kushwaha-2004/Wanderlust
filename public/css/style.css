@@ -1,0 +1,125 @@
+* {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+}
+
+.navbar {
+    background-color: white;
+}
+
+.fa-compass {
+    font-size: 2rem;
+    color: #fe424d;
+}
+
+.nav-link {
+    color: #222222 !important;
+}
+
+
+.f-info {
+    background-color: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.1rem;
+}
+
+.f-info-socials {
+    font-size: 1.5rem;
+}
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+    margin: 1rem;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-brand {
+    margin: 1.1rem;
+}
+
+.listing-card {
+    border: 0 !important;
+}
+
+.listings {
+    text-decoration: none;
+}
+
+.card-body {
+    padding-left: 0 !important;
+}
+
+.card-img-overlay:hover {
+    background-color: white;
+    opacity: .2;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+}
+
+.add-btn {
+    background-color: #fe424d !important;
+    border: 0 !important;
+}
+
+.edit-btn {
+    background-color: #fe424d !important;
+    border: 0 !important;
+}
+
+.list-img {
+    height: 30vh;
+    object-fit: cover;
+}
+
+.btns {
+    display: flex;
+}
+
+#map {
+   width:100%;
+   height: 20rem;
+   margin: 2rem 0;
+}
+
+  #filters {
+    display: flex;
+  
+  }
+  #filters::-webkit-scrollbar {
+    display: none;
+  }
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 1rem;
+    opacity: 0.7;
+  }
+
+  .filter:hover{
+    opacity: 1;
+    cursor: pointer;
+  }
+  .filter p{
+    font-size: 0.8rem;
+  }
+  .tax-info{
+    display: none;
+  }

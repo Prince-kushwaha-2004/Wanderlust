@@ -1,0 +1,71 @@
+<% layout("/layouts/boilerplate.ejs") %>   
+
+<body >
+  <div id="filters" class="overflow-auto justify-content-lg-center justify-content-start">
+    <div class="filter">
+     <div><i class="fa-solid fa-fire"></i></div>
+     <p>Trending</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-bed"></i></div>
+     <p>Rooms</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-mountain-city"></i></div>
+     <p>Iconic City</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-mountain-sun"></i></div>
+     <p>Mountains</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-brands fa-fort-awesome"></i></div>
+     <p>Castles</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-regular fa-snowflake"></i></div>
+     <p>Arctic</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-tents"></i></div>
+     <p>Camping</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-wheat-awn"></i></div>
+     <p>Farms</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-person-swimming"></i></div>
+     <p>Amazing Pool</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-umbrella-beach"></i></div>
+     <p>Beach</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-sailboat"></i></i></div>
+     <p>Island</p> 
+    </div>
+    <div class="filter">
+     <div><i class="fa-solid fa-plane-departure"></i></i></i></div>
+     <p>Foreign Trip</p> 
+    </div>
+
+ </div>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+            <%for(listings of allListings){ %>
+                <a href="/listings/<%=listings._id%>" class="listings">
+                <div class="card listing-card">
+                    <div class="card-img-overlay">
+                      </div>
+                    <img src="<%=listings.image.url%>" class="card-img-top" alt="Listing image" style="height: 18rem;">
+                    <div class="card-body">
+                      <p class="card-text"><b><%= listings.title %></b> <br>&#8377 <%=listings.price.toLocaleString("en-IN")%>/night</p>
+                    </div>
+                  </div>
+                </a>
+                  <%}%>
+        </div>
+    
+</body>
+
