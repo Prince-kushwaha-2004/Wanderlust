@@ -89,9 +89,9 @@
             </div>
         </div>
         <script>
-            let map_token = "<%= process.env.MAP_TOKEN %>";
+            let map_token = "pk.eyJ1IjoicHJpbmNlMTIxa2siLCJhIjoiY20zMDZ3dW03MGd4djJsc2M2dGg1bTd2MSJ9.2Lu2Yrj2eRRguHvh4OAaoA"
             let coordinates = "<%-JSON.stringify(data.geometry.coordinates)%>"
-            
+
             mapboxgl.accessToken = map_token;
             cordinatesdata = JSON.parse(coordinates)
 
