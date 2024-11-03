@@ -25,7 +25,6 @@ module.exports.createNewListing = async (req, res, next) => {
     }
     newlisting.geometry =geoData.body.features[0].geometry;
     savedlisting=await newlisting.save();
-    console.log(savedlisting)
     req.flash("success", "Successfully created a new listing");
     res.redirect("/listings");
 
@@ -60,7 +59,6 @@ module.exports.showListing = async (req, res) => {
     let { id } = req.params;
     const data = await Listing.findById(id).populate({ path: "reviews", populate: { path: "author" } }).populate("owner");
     if (data) {
-        console.log(data)
         res.render("listings/show.ejs", { data });
     } else {
         req.flash("error", "Cannot find the listing");
@@ -71,7 +69,6 @@ module.exports.showListing = async (req, res) => {
 module.exports.deleteListing = async (req, res) => {
     let { id } = req.params;
     const deletedlisting = await Listing.findByIdAndDelete(id);
-    console.log(deletedlisting);
     req.flash("success", "Successfully deleted the listing");
     res.redirect("/listings");
 }
