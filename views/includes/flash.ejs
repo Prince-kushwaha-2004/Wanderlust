@@ -1,12 +1,41 @@
-<%if(success && success.length){%>
-<div class="alert alert-success alert-dismissible fade show col-sm-6 offset-sm-3 mt-3" role="alert">
-   <%= success %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-<%}%>
-<%if(error && error.length){%>
-    <div class="alert alert-danger alert-dismissible fade show col-sm-6 offset-sm-3 mt-3" role="alert">
-       <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <%}%>
+<% if(success && success.length){ %>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      Toastify({
+        text: "<%= success %>",
+        duration: 3500,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
+          borderRadius: "10px",
+          fontFamily: "'Outfit', sans-serif",
+          boxShadow: "0 10px 15px -3px rgba(16, 185, 129, 0.2), 0 4px 6px -4px rgba(16, 185, 129, 0.2)"
+        }
+      }).showToast();
+    });
+  </script>
+<% } %>
+
+<% if(error && error.length){ %>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      Toastify({
+        text: "<%= error %>",
+        duration: 4500,
+        close: true,
+        gravity: "top", 
+        position: "right", 
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)",
+          borderRadius: "10px",
+          fontFamily: "'Outfit', sans-serif",
+          boxShadow: "0 10px 15px -3px rgba(244, 63, 94, 0.2), 0 4px 6px -4px rgba(244, 63, 94, 0.2)"
+        }
+      }).showToast();
+    });
+  </script>
+<% } %>

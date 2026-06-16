@@ -1,110 +1,166 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-    <body>
+<body class="bg-light-section">
+    <div class="container py-5">
         <div class="row">
-            <div class="col-sm-6 offset-sm-3">
-                <h1>
-                    <%=data.title%>
-                </h1>
-                <div class="card listing-card">
-                    <img src="<%=data.image.url%>" class="card-img-top list-img " alt="listing_image">
-                    <div class="card-body">
-                        <p class="card-text"><i>
-                                <%=data.owner.username%>
-                            </i></p>
-                        <p class="card-text">
-                            <%=data.description%> <br>
-                                &#8377 <%=data.price.toLocaleString("en-IN")%> <br>
-                                    <%=data.location%> <br>
-                                        <%=data.country%> <br>
-                        </p>
-                        <div class="btns mt-4">
+            <!-- Listing Header -->
+            <div class="col-12 max-w-900 mx-auto mb-4">
+                <span class="badge bg-primary-color mb-2 px-3 py-2 text-uppercase fs-8 fw-semibold"><%= data.category %></span>
+                <h1 class="fw-bold text-dark mb-1"><%= data.title %></h1>
+                <p class="text-muted fs-6"><i class="fa-solid fa-location-dot me-1"></i><%= data.location %>, <%= data.country %></p>
+            </div>
+
+            <!-- Image Showcase -->
+            <div class="col-12 max-w-900 mx-auto mb-5">
+                <div class="show-img-wrapper shadow-sm rounded-4 overflow-hidden" style="max-height: 480px;">
+                    <img src="<%= data.image.url %>" class="w-100 h-100 object-fit-cover" alt="<%= data.title %>" style="min-height: 350px;">
+                </div>
+            </div>
+
+            <!-- Details, Map & Review Actions Grid -->
+            <div class="col-12 max-w-900 mx-auto">
+                <div class="row g-5">
+                    <!-- Left Column: Details & Reviews -->
+                    <div class="col-lg-7">
+                        <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
+                            <!-- Host Information -->
+                            <div class="d-flex align-items-center gap-3 pb-3 mb-4 border-bottom">
+                                <div class="avatar bg-primary-light text-primary-color rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5" style="width: 50px; height: 50px;">
+                                    <%= data.owner.username.slice(0, 2).toUpperCase() %>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark">Hosted by <%= data.owner.username %></h5>
+                                    <span class="text-muted fs-7">Host Profile Verified</span>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <h5 class="fw-bold text-dark mb-3">About this stay</h5>
+                            <p class="text-muted fs-6 lh-base mb-4"><%= data.description %></p>
+
+                            <!-- Quick Stats -->
+                            <div class="row g-2 text-center border-top pt-4">
+                                <div class="col-4 border-end">
+                                    <h6 class="text-muted fs-8 mb-1 text-uppercase">Nightly Rate</h6>
+                                    <span class="fw-bold text-primary-color fs-5">&#8377; <%= data.price.toLocaleString("en-IN") %></span>
+                                </div>
+                                <div class="col-4 border-end">
+                                    <h6 class="text-muted fs-8 mb-1 text-uppercase">Country</h6>
+                                    <span class="fw-bold text-dark fs-6"><%= data.country %></span>
+                                </div>
+                                <div class="col-4">
+                                    <h6 class="text-muted fs-8 mb-1 text-uppercase">Rating</h6>
+                                    <span class="fw-bold text-warning fs-6">
+                                        <i class="fa-solid fa-star me-1"></i>
+                                        <%= data.reviews.length > 0 ? (data.reviews.reduce((acc, curr) => acc + curr.rating, 0) / data.reviews.length).toFixed(1) : "New" %>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Edit/Delete Operations -->
                             <% if(currentUser && currentUser._id.equals(data.owner._id)){ %>
-                                <a href="/listings/<%=data._id%>/edit" class="btn btn-dark edit-btn">Edit</a>
-                                <form action="/listings/<%=data._id%>?_method=DELETE" method="POST">
-                                    <button class="btn btn-dark ms-4">Delete</button>
-                                </form>
-                                <%}%>
+                                <div class="d-flex gap-2 mt-4 pt-3 border-top justify-content-end">
+                                    <a href="/listings/<%= data._id %>/edit" class="btn btn-primary-color rounded-pill px-4"><i class="fa-solid fa-pen-to-square me-1"></i>Edit</a>
+                                    <form action="/listings/<%= data._id %>?_method=DELETE" method="POST" class="m-0">
+                                        <button class="btn btn-outline-danger rounded-pill px-4"><i class="fa-solid fa-trash me-1"></i>Delete</button>
+                                    </form>
+                                </div>
+                            <% } %>
                         </div>
 
+                        <!-- Leave a Review Section -->
+                        <% if(currentUser) { %>
+                            <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
+                                <h4 class="fw-bold text-dark mb-3">Leave a Review</h4>
+                                <form action="/listings/<%= data._id %>/review" method="POST" novalidate class="needs-validation">
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted fs-7 fw-semibold">Rating</label>
+                                        <fieldset class="starability-slot border-0 p-0 m-0">
+                                            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+                                            <input type="radio" id="first-rate1" name="rating" value="1" />
+                                            <label for="first-rate1" title="Terrible">1 star</label>
+                                            <input type="radio" id="first-rate2" name="rating" value="2" />
+                                            <label for="first-rate2" title="Not good">2 stars</label>
+                                            <input type="radio" id="first-rate3" name="rating" value="3" />
+                                            <label for="first-rate3" title="Average">3 stars</label>
+                                            <input type="radio" id="first-rate4" name="rating" value="4" />
+                                            <label for="first-rate4" title="Very good">4 stars</label>
+                                            <input type="radio" id="first-rate5" name="rating" value="5" />
+                                            <label for="first-rate5" title="Amazing">5 stars</label>
+                                        </fieldset>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="comment" class="form-label text-muted fs-7 fw-semibold">Comment</label>
+                                        <textarea name="comment" class="form-control border-radius-md" id="comment" cols="30" rows="4" placeholder="Share your experience staying here..." required></textarea>
+                                        <div class="invalid-feedback">Please add some comments for your review</div>
+                                    </div>
+                                    <button class="btn btn-primary-color rounded-pill px-4">Submit Review</button>
+                                </form>
+                            </div>
+                        <% } %>
+
+                        <!-- Display Reviews -->
+                        <% if(data.reviews.length > 0){ %>
+                            <div class="bg-white p-4 rounded-4 shadow-sm border mb-4">
+                                <h5 class="fw-bold text-dark mb-4">Reviews (<%= data.reviews.length %>)</h5>
+                                <div class="d-flex flex-column gap-3">
+                                    <% for(review of data.reviews) { %>
+                                        <div class="p-3 bg-light-section rounded-3 border">
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <div class="avatar bg-secondary-accent text-white rounded-circle d-flex align-items-center justify-content-center fw-bold fs-8" style="width: 30px; height: 30px;">
+                                                        <%= review.author.username.slice(0,2).toUpperCase() %>
+                                                    </div>
+                                                    <span class="fw-bold text-dark fs-7">@<%= review.author.username %></span>
+                                                </div>
+                                                <p class="starability-result m-0" data-rating="<%= review.rating %>"></p>
+                                            </div>
+                                            <p class="text-muted fs-7 mb-2"><%= review.comment %></p>
+                                            <% if(currentUser && currentUser._id.equals(review.author._id)) { %>
+                                                <form action="/listings/<%= data._id %>/review/<%= review._id %>?_method=DELETE" method="POST" class="m-0 text-end">
+                                                    <button class="btn btn-sm btn-outline-danger border-0 py-0 px-2 fs-8"><i class="fa-solid fa-trash me-1"></i>Delete</button>
+                                                </form>
+                                            <% } %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <!-- Right Column: Location Map -->
+                    <div class="col-lg-5">
+                        <div class="bg-white p-4 rounded-4 shadow-sm border sticky-md-top" style="top: 90px; z-index: 10;">
+                            <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-map-location-dot me-1 text-primary-color"></i> Where you'll be</h5>
+                            <div id="map" class="rounded-3 shadow-inner border" style="height: 280px; width:100%; margin:0;"></div>
+                            <p class="text-muted fs-8 mt-2 mb-0"><i class="fa-solid fa-circle-info me-1"></i>Exact directions will be provided post booking.</p>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <div class="review mb-3">
-                    <% if(currentUser) {%>
-                        <h4>Leave a Review</h4>
-                        <form action="/listings/<%=data._id%>/review" method="post" novalidate class="needs-validation">
-                            <fieldset class="starability-slot">
-                                <label for="rating" class="form-label">Rating:</label>
-                                <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked
-                                    aria-label="No rating." />
-                                <input type="radio" id="first-rate1" name="rating" value="2" />
-                                <label for="first-rate1" title="Terrible">2 star</label>
-                                <input type="radio" id="first-rate2" name="rating" value="3" />
-                                <label for="first-rate2" title="Not good">3 stars</label>
-                                <input type="radio" id="first-rate3" name="rating" value="4" />
-                                <label for="first-rate3" title="Average">4 stars</label>
-                                <input type="radio" id="first-rate4" name="rating" value="5" />
-                                <label for="first-rate4" title="Very good">5 stars</label>
-
-                            </fieldset>
-                            <div class="mb-3">
-                                <label for="comment" class="form-label">Comment:</label>
-                                <textarea name="comment" class="form-control" id="comment" cols="30" rows="5"
-                                    required></textarea>
-                                <div class="invalid-feedback">Please add some comments for review</div>
-                            </div>
-                            <button class="btn btn-outline-dark">Submit</button>
-
-                        </form>
-                        <hr>
-                        <% } %>
-                            <% if(data.reviews.length>0){ %>
-                                <p><b>All reviews</b></p>
-                                <div class="row">
-                                    <%for(review of data.reviews){%>
-                                        <div class="card col-115 col-sm-5 m-3 p-3">
-                                            <h5 class="card-title"><b>@<%=review.author.username %></b></h5>
-                                            <p class="starability-result " data-rating="<%=review.rating%>"></p>
-                                            <p class="card-text">
-                                                <%=review.comment%>
-                                            </p>
-                                            <% if(currentUser && currentUser._id.equals(review.author._id)){ %>
-                                                <form
-                                                    action="/listings/<%=data._id%>/review/<%=review._id%>?_method=DELETE"
-                                                    method="post">
-                                                    <button class="btn btn-dark">Delete</button>
-                                                </form>
-                                                <%}%>
-                                        </div>
-                                        <%}%>
-                                </div>
-                                <% } %>
-
-                </div>
-            </div>
-            <div class="col-sm-6 offset-sm-3">
-                <h4>Where you'll be</h4>
-                <div id="map"></div>
             </div>
         </div>
-        <script>
-            let map_token = "pk.eyJ1IjoicHJpbmNlMTIxa2siLCJhIjoiY20zMDZ3dW03MGd4djJsc2M2dGg1bTd2MSJ9.2Lu2Yrj2eRRguHvh4OAaoA"
-            let coordinates = "<%-JSON.stringify(data.geometry.coordinates)%>"
+    </div>
 
-            mapboxgl.accessToken = map_token;
-            cordinatesdata = JSON.parse(coordinates)
+    <!-- Mapbox Initialization Script -->
+    <script>
+        let map_token = "<%= mapToken %>"
+        let coordinates = "<%-JSON.stringify(data.geometry.coordinates)%>"
 
-            const map = new mapboxgl.Map({
-                container: 'map', // container ID
-                center: cordinatesdata, // starting position [lng, lat]. Note that lat must be set between -90 and 90
-                zoom: 13 // starting zoom
-            });
+        mapboxgl.accessToken = map_token;
+        let cordinatesdata = JSON.parse(coordinates)
 
-            const marker = new mapboxgl.Marker({ color: 'red' })
-                .setLngLat(cordinatesdata)
-                .addTo(map);
+        const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // style URL
+            center: cordinatesdata, // starting position [lng, lat]
+            zoom: 13 // starting zoom
+        });
 
-        </script>
+        // Add map navigation controls
+        map.addControl(new mapboxgl.NavigationControl());
 
-    </body>
+        const marker = new mapboxgl.Marker({ color: '#DF6951' })
+            .setLngLat(cordinatesdata)
+            .addTo(map);
+    </script>
+</body>

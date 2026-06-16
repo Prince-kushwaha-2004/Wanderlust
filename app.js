@@ -54,13 +54,6 @@ const sessionOption = {
     }
 }
 app.use(session(sessionOption));
-
-app.get("/", (req, res) => {
-    res.redirect("/listings");
-})
-
-
-app.use(session(sessionOption));
 app.use(flash());
 
 //authentication
@@ -75,8 +68,19 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currentUser = req.user;
+    res.locals.mapToken = process.env.MAP_TOKEN;
     next();
 })
+
+app.get("/", async (req, res) => {
+    try {
+        const Listing = require("./models/listing.js");
+        const featuredListings = await Listing.find({}).limit(3);
+        res.render("landing.ejs", { featuredListings });
+    } catch (err) {
+        res.status(500).render("error.ejs", { message: "Failed to load the landing page." });
+    }
+});
 
 
 
@@ -95,6 +99,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render("error.ejs", { message });
 })
 
-app.listen(8080, () => {
-    console.log("Server listning from port 8080");
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`Server listing from port ${port}`);
 });

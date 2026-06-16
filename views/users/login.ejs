@@ -1,26 +1,94 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-<body>
-    <div class="row">
-        <div class="col-8 offset-2">
-            <form action="/login" method="POST" class="needs-validation" novalidate>
-                <h1 class="text-center mt-3">Login</h1>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
-                    <div class="valid-feedback">Username looks good</div>
-                    <div class="invalid-feedback">Please enter your username</div>
+<!-- Background Blob Accents -->
+<div class="blob-accent-top-right"></div>
+<div class="blob-accent-left"></div>
+
+<div class="bg-light-section position-relative">
+    <div class="container py-5 my-md-5 z-2 position-relative">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-11 col-md-12">
+                <div class="card auth-card border-0 shadow-lg overflow-hidden rounded-4">
+                    <div class="row g-0">
+                        <!-- Visual Side (Left) -->
+                        <div class="col-lg-6 d-none d-lg-flex align-items-center position-relative auth-visual-side">
+                            <div class="auth-visual-overlay"></div>
+                            <div class="auth-visual-content p-5 text-white z-2 w-100">
+                                <div class="auth-logo mb-4">
+                                    <span class="brand-text text-white">StayEasy<span class="brand-dot text-primary-color">.</span></span>
+                                </div>
+                                <h1 class="hero-volkhov-title text-white mb-3 fs-1 fw-bold">Welcome Back, Traveler!</h1>
+                                <p class="fs-6 opacity-90 mb-4 fw-light">Unlock access to customized bookings, premium hosts, and bucket-list listings across the globe.</p>
+                                
+                                <div class="testimonial-bubble p-4 bg-white bg-opacity-10 backdrop-blur rounded-4 border border-white border-opacity-20 mt-5 shadow-sm">
+                                    <p class="fs-7 fst-italic mb-3">"Staying in StayEasy homes has changed the way I travel. The hosts are incredibly welcoming, and every stay feels like a home."</p>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="avatar bg-primary-color text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem;">MA</div>
+                                        <div>
+                                            <span class="fw-bold fs-7 d-block">Marcus A.</span>
+                                            <span class="fs-8 text-white-50">Explorer, 45+ stays</span>
+                                        </div>
+                                        <span class="ms-auto text-warning fs-8">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Side (Right) -->
+                        <div class="col-lg-6 d-flex align-items-center bg-white">
+                            <div class="card-body p-4 p-md-5 w-100">
+                                <div class="text-center text-lg-start mb-4">
+                                    <span class="sub-header-badge text-uppercase mb-2 d-inline-block">Welcome back</span>
+                                    <h2 class="fw-bold mb-2 text-dark hero-volkhov-title fs-2">Login to StayEasy</h2>
+                                    <p class="text-muted fs-7">Manage your hosted stays and traveler reviews</p>
+                                </div>
+
+                                <form action="/login" method="POST" class="needs-validation" novalidate>
+                                    <!-- Username -->
+                                    <div class="mb-3 text-start">
+                                        <label for="username" class="form-label text-muted fs-8 fw-bold tracking-wider uppercase">Username</label>
+                                        <div class="input-group-premium">
+                                            <span class="input-group-premium-icon"><i class="fa-solid fa-user"></i></span>
+                                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+                                        </div>
+                                        <div class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> Please enter your username</div>
+                                    </div>
+
+                                    <!-- Password -->
+                                    <div class="mb-4 text-start">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label for="password" class="form-label text-muted fs-8 fw-bold tracking-wider uppercase mb-0">Password</label>
+                                        </div>
+                                        <div class="input-group-premium has-password-toggle">
+                                            <span class="input-group-premium-icon"><i class="fa-solid fa-lock"></i></span>
+                                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                                            <button type="button" class="password-toggle-btn" data-target="password" aria-label="Toggle password visibility">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback"><i class="fa-solid fa-circle-exclamation"></i> Please enter your password</div>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div class="mt-4">
+                                        <button type="submit" class="btn btn-primary-jadoo btn-lg rounded-pill w-100 fs-7 py-3">Login</button>
+                                    </div>
+
+                                    <div class="text-center mt-4 border-top pt-3">
+                                        <p class="text-muted fs-7 mb-0">Don't have an account? <a href="/signup" class="text-accent-color text-decoration-none fw-bold">Sign Up</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-                    <div class="valid-feedback">Password looks good</div>
-                    <div class="invalid-feedback">Please enter your password</div>
-                </div>
-                <button class="btn btn-dark add-btn">Login</button>
-                <br><br>
-            </form>
+            </div>
         </div>
     </div>
-</body>
-    
+</div>

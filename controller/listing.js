@@ -1,12 +1,28 @@
 const Listing = require('../models/listing.js')
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); //geocoding service from mapbox
-const mapTocken = "pk.eyJ1IjoicHJpbmNlMTIxa2siLCJhIjoiY20zMDZ3dW03MGd4djJsc2M2dGg1bTd2MSJ9.2Lu2Yrj2eRRguHvh4OAaoA";
-const geocodingClient = mbxGeocoding({ accessToken: mapTocken }); //initiate geocoding using the mapbox token
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken }); //initiate geocoding using the mapbox token
 
 
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    let filter = {};
+    if (req.query.category && req.query.category !== "") {
+        filter.category = req.query.category;
+    }
+    if (req.query.search && req.query.search.trim() !== "") {
+        const searchRegex = new RegExp(req.query.search.trim(), "i");
+        filter.$or = [
+            { title: searchRegex },
+            { location: searchRegex },
+            { country: searchRegex }
+        ];
+    }
+    const allListings = await Listing.find(filter);
+    res.render("listings/index.ejs", {
+        allListings,
+        selectedCategory: req.query.category || "",
+        searchQuery: req.query.search || ""
+    });
 }
 module.exports.renderListingform = (req, res) => {
     res.render("listings/new.ejs");
@@ -18,13 +34,13 @@ module.exports.createNewListing = async (req, res, next) => {
     }).send();
     const newlisting = new Listing(req.body);
     newlisting.owner = req.user._id;
-    if(req.file){
+    if (req.file) {
         let url = req.file.path;
         let filename = req.file.filename;
         newlisting.image = { url, filename };
     }
-    newlisting.geometry =geoData.body.features[0].geometry;
-    savedlisting=await newlisting.save();
+    newlisting.geometry = geoData.body.features[0].geometry;
+    savedlisting = await newlisting.save();
     req.flash("success", "Successfully created a new listing");
     res.redirect("/listings");
 
@@ -45,7 +61,7 @@ module.exports.editListing = async (req, res) => {
     }).send();
     let { id } = req.params;
     newlisting = await Listing.findByIdAndUpdate(id, { ...req.body });
-    newlisting.geometry =geoData.body.features[0].geometry;
+    newlisting.geometry = geoData.body.features[0].geometry;
     if (req.file) {
         let url = req.file.path;
         let filename = req.file.filename;

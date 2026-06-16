@@ -21,7 +21,7 @@ module.exports.signup=async(req,res)=>{
                 req.flash("error",err.message);
                 return res.redirect("/signup");
             }
-            req.flash("success","Welcome to Wanderlust");
+            req.flash("success","Welcome to StayEasy");
             res.redirect("/listings");
         })
         
@@ -31,8 +31,8 @@ module.exports.renderLoginForm=(req,res)=>{
     res.render("users/login.ejs");
 }
 module.exports.login=async(req,res)=>{
-    req.flash("success","Welcome to Wanderlust");
-    res.redirect(res.locals.redirecturl );
+    req.flash("success","Welcome to StayEasy");
+    res.redirect(res.locals.redirecturl || "/listings");
   }
 module.exports.logout=(req,res,next)=>{
     req.logout((err)=>{

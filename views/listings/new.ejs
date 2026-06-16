@@ -1,52 +1,89 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-    <body>
+<body class="bg-light-section">
+    <div class="container py-5">
         <div class="row">
-            <div class="col-8 offset-2">
-                <br><br>
-                <h1>Create new listings</h1>
-                <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" id="text" name="title" class="form-control" placeholder="Enter a catchy title" required>
-                        <div class="valid-feedback">Title looks good</div>
-                        <div class="invalid-feedback">Please enter a title</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea name="description" id="description" class="form-control"
-                            placeholder="Description" required></textarea>
-                            <div class="valid-feedback">description looks good</div>
-                            <div class="invalid-feedback">Please enter description</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="url" class="form-label">Upload Listing image</label>
-                        <input type="file" id="image" accept="image/png, image/gif, image/jpeg" name="image" class="form-control">
-                    </div>
-                    <div class="row">
-                        <div class="mb-3 col-md-4">
-                            <label for="price" class="form-label">Price</label>
-                            <input  id="price" name="price" class="form-control" placeholder="1200" required>
+            <div class="col-md-8 mx-auto">
+                <div class="card shadow-sm border p-4 p-md-5 rounded-4 bg-white">
+                    <h2 class="fw-bold mb-1 text-dark text-center">Host a New Stay</h2>
+                    <p class="text-muted text-center mb-4">Share your wonderful home with travelers from around the world.</p>
                     
-                             <div class="invalid-feedback">Please enter a valid price</div>
+                    <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label for="title" class="form-label text-muted fs-7 fw-semibold">Listing Title</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="e.g., Cozy Beachfront Cottage" required>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please enter a catchy title</div>
                         </div>
-                        <div class="mb-3 col-md-8">
-                            <label for="country" class="form-label">Country</label>
-                            <input type="text" name="country" id="country" class="form-control" placeholder="India" required>
-                            <div class="valid-feedback">looks good</div>
-                        <div class="invalid-feedback">Please enter your country name</div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" id="location" name="location" class="form-control" placeholder="Noida" required>
-                        <div class="valid-feedback">looks good</div>
-                        <div class="invalid-feedback">Please enter location</div>
-                    </div>
 
-                    <button class="btn btn-dark add-btn">Add</button>
-                    <br><br>
-                </form>
+                        <!-- Description -->
+                        <div class="mb-4">
+                            <label for="description" class="form-label text-muted fs-7 fw-semibold">Description</label>
+                            <textarea name="description" id="description" class="form-control" rows="4" placeholder="Describe what makes your stay unique, neighborhood highlights, and layout details..." required></textarea>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Please enter a short description</div>
+                        </div>
+
+                        <!-- Upload Image -->
+                        <div class="mb-4">
+                            <label for="image" class="form-label text-muted fs-7 fw-semibold">Upload Cover Image</label>
+                            <input type="file" id="image" accept="image/png, image/gif, image/jpeg" name="image" class="form-control" required>
+                            <div class="invalid-feedback">Please upload an image file</div>
+                        </div>
+
+                        <!-- Price & Category Row -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="price" class="form-label text-muted fs-7 fw-semibold">Price per Night (&#8377;)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light text-muted border-end-0">&#8377;</span>
+                                    <input type="number" id="price" name="price" class="form-control border-start-0" placeholder="1200" min="0" required>
+                                </div>
+                                <div class="invalid-feedback">Please enter a valid price</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="category" class="form-label text-muted fs-7 fw-semibold">Category</label>
+                                <select name="category" id="category" class="form-select" required>
+                                    <option value="" disabled selected>Choose a category...</option>
+                                    <option value="Trending">Trending</option>
+                                    <option value="Rooms">Rooms</option>
+                                    <option value="Iconic City">Iconic City</option>
+                                    <option value="Mountains">Mountains</option>
+                                    <option value="Castles">Castles</option>
+                                    <option value="Arctic">Arctic</option>
+                                    <option value="Camping">Camping</option>
+                                    <option value="Farms">Farms</option>
+                                    <option value="Amazing Pool">Amazing Pool</option>
+                                    <option value="Beach">Beach</option>
+                                    <option value="Island">Island</option>
+                                    <option value="Foreign Trip">Foreign Trip</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a category</div>
+                            </div>
+                        </div>
+
+                        <!-- Location & Country Row -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label for="location" class="form-label text-muted fs-7 fw-semibold">City / Location</label>
+                                <input type="text" id="location" name="location" class="form-control" placeholder="e.g., Noida, Malibu" required>
+                                <div class="invalid-feedback">Please enter location</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="country" class="form-label text-muted fs-7 fw-semibold">Country</label>
+                                <input type="text" name="country" id="country" class="form-control" placeholder="e.g., India, United States" required>
+                                <div class="invalid-feedback">Please enter your country</div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-primary-color btn-lg rounded-pill px-5 fs-6"><i class="fa-solid fa-cloud-arrow-up me-2"></i>Create Listing</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>

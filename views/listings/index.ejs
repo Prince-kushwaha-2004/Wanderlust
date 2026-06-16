@@ -1,71 +1,115 @@
 <% layout("/layouts/boilerplate.ejs") %>   
 
-<body >
-  <div id="filters" class="overflow-auto justify-content-lg-center justify-content-start">
-    <div class="filter">
-     <div><i class="fa-solid fa-fire"></i></div>
-     <p>Trending</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-bed"></i></div>
-     <p>Rooms</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-mountain-city"></i></div>
-     <p>Iconic City</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-mountain-sun"></i></div>
-     <p>Mountains</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-brands fa-fort-awesome"></i></div>
-     <p>Castles</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-regular fa-snowflake"></i></div>
-     <p>Arctic</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-tents"></i></div>
-     <p>Camping</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-wheat-awn"></i></div>
-     <p>Farms</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-person-swimming"></i></div>
-     <p>Amazing Pool</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-umbrella-beach"></i></div>
-     <p>Beach</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-sailboat"></i></i></div>
-     <p>Island</p> 
-    </div>
-    <div class="filter">
-     <div><i class="fa-solid fa-plane-departure"></i></i></i></div>
-     <p>Foreign Trip</p> 
+<body>
+  <div class="container py-4">
+    <!-- Interactive Category Filters -->
+    <div id="filters" class="overflow-auto justify-content-lg-center justify-content-start py-3 mb-4 gap-2 border-bottom">
+      <a href="/listings" class="filter <%= !selectedCategory ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-list-check"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">All Stays</p> 
+      </a>
+      <a href="/listings?category=Trending" class="filter <%= selectedCategory === 'Trending' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Trending</p> 
+      </a>
+      <a href="/listings?category=Rooms" class="filter <%= selectedCategory === 'Rooms' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Rooms</p> 
+      </a>
+      <a href="/listings?category=Iconic City" class="filter <%= selectedCategory === 'Iconic City' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Iconic City</p> 
+      </a>
+      <a href="/listings?category=Mountains" class="filter <%= selectedCategory === 'Mountains' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-mountain-sun"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Mountains</p> 
+      </a>
+      <a href="/listings?category=Castles" class="filter <%= selectedCategory === 'Castles' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Castles</p> 
+      </a>
+      <a href="/listings?category=Arctic" class="filter <%= selectedCategory === 'Arctic' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-regular fa-snowflake"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Arctic</p> 
+      </a>
+      <a href="/listings?category=Camping" class="filter <%= selectedCategory === 'Camping' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-tents"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Camping</p> 
+      </a>
+      <a href="/listings?category=Farms" class="filter <%= selectedCategory === 'Farms' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-wheat-awn"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Farms</p> 
+      </a>
+      <a href="/listings?category=Amazing Pool" class="filter <%= selectedCategory === 'Amazing Pool' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Amazing Pool</p> 
+      </a>
+      <a href="/listings?category=Beach" class="filter <%= selectedCategory === 'Beach' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Beach</p> 
+      </a>
+      <a href="/listings?category=Island" class="filter <%= selectedCategory === 'Island' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-sailboat"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Island</p> 
+      </a>
+      <a href="/listings?category=Foreign Trip" class="filter <%= selectedCategory === 'Foreign Trip' ? 'active-filter' : '' %> text-decoration-none text-dark">
+        <div><i class="fa-solid fa-plane-departure"></i></div>
+        <p class="mb-0 fs-8 mt-1 fw-medium">Foreign Trip</p> 
+      </a>
     </div>
 
- </div>
-        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-            <%for(listings of allListings){ %>
-                <a href="/listings/<%=listings._id%>" class="listings">
-                <div class="card listing-card">
-                    <div class="card-img-overlay">
-                      </div>
-                    <img src="<%=listings.image.url%>" class="card-img-top" alt="Listing image" style="height: 18rem;">
-                    <div class="card-body">
-                      <p class="card-text"><b><%= listings.title %></b> <br>&#8377 <%=listings.price.toLocaleString("en-IN")%>/night</p>
-                    </div>
+    <!-- Search & Filter Result Header -->
+    <% if (typeof searchQuery !== 'undefined' && searchQuery !== '') { %>
+      <div class="mb-4">
+        <h4 class="text-muted fs-5">Search results for "<span class="text-dark fw-bold"><%= searchQuery %></span>" 
+        <% if (selectedCategory) { %> in category "<span class="text-dark fw-bold"><%= selectedCategory %></span>"<% } %>
+        <a href="/listings" class="ms-2 btn btn-sm btn-outline-secondary rounded-pill py-0 px-2 fs-8">Clear Search</a>
+        </h4>
+      </div>
+    <% } else if (selectedCategory) { %>
+      <div class="mb-4">
+        <h4 class="text-muted fs-5">Showing stays in <span class="text-primary-color fw-bold"><%= selectedCategory %></span>
+        <a href="/listings" class="ms-2 btn btn-sm btn-outline-secondary rounded-pill py-0 px-2 fs-8">Clear Filter</a>
+        </h4>
+      </div>
+    <% } %>
+
+    <!-- Listings Grid -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4 mb-5">
+      <% if(allListings && allListings.length > 0) { %>
+        <% for(listing of allListings){ %>
+          <div class="col">
+            <a href="/listings/<%=listing._id%>" class="text-decoration-none text-dark">
+              <div class="card listing-card-premium h-100 shadow-sm border-0 position-relative">
+                <span class="badge position-absolute top-0 end-0 m-3 z-3 bg-glass-tag px-3 py-2 text-dark fw-semibold"><%= listing.category %></span>
+                <div class="card-img-wrapper overflow-hidden">
+                  <img src="<%=listing.image.url%>" class="card-img-top listing-img-card" alt="Listing image" style="height: 18rem;">
+                </div>
+                <div class="card-body px-3 py-4">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title fw-bold text-truncate mb-0" style="max-width: 80%;"><%= listing.title %></h5>
+                    <span class="text-primary-color fw-bold">&#8377; <%=listing.price.toLocaleString("en-IN")%><span class="text-muted fs-8 fw-normal">/night</span></span>
                   </div>
-                </a>
-                  <%}%>
+                  <p class="text-muted fs-7 mb-3 line-clamp-2"><%= listing.description %></p>
+                  <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                    <span class="text-dark fs-7"><i class="fa-solid fa-location-dot text-muted me-1"></i><%= listing.location %>, <%= listing.country %></span>
+                    <span class="text-primary-color fw-semibold fs-7">View Details <i class="fa-solid fa-arrow-right ms-1"></i></span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% } %>
+      <% } else { %>
+        <div class="col-12 text-center py-5">
+          <div class="py-5 bg-white shadow-sm rounded-4 border">
+            <i class="fa-solid fa-hotel fs-1 text-muted mb-3"></i>
+            <h3>No Stays Found</h3>
+            <p class="text-muted max-w-400 mx-auto mt-2">We couldn't find any stays matching your requirements. Try clearing your filters or exploring other destinations.</p>
+            <a href="/listings" class="btn btn-primary-color rounded-pill px-4 mt-3">Reset Search Filters</a>
+          </div>
         </div>
-    
+      <% } %>
+    </div>
+  </div>
 </body>
-

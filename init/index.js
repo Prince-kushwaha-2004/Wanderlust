@@ -1,13 +1,15 @@
+const path = require("path");
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding'); //geocoding service from mapbox
-const mapTocken = "pk.eyJ1IjoicHJpbmNlMTIxa2siLCJhIjoiY20zMDZ3dW03MGd4djJsc2M2dGg1bTd2MSJ9.2Lu2Yrj2eRRguHvh4OAaoA";
-console.log(mapTocken)
-const geocodingClient = mbxGeocoding({ accessToken: mapTocken }); //initiate geocoding using the mapbox token
+const mapToken = process.env.MAP_TOKEN;
+console.log(mapToken)
+const geocodingClient = mbxGeocoding({ accessToken: mapToken }); //initiate geocoding using the mapbox token
 
-const dburl="" //add your dburl here
+const dburl = process.env.ATLAS_URL || "mongodb://127.0.0.1:27017/wanderlust"; // fallback to local
 
 main() 
     .then(()=>{console.log("Server connected")})
@@ -17,8 +19,31 @@ async function main() {
   await mongoose.connect(dburl);
 }
 
+function getCategory(title, description) {
+  const t = (title || "").toLowerCase();
+  const d = (description || "").toLowerCase();
+  
+  if (t.includes("beach") || d.includes("beach") || t.includes("ocean") || d.includes("ocean")) return "Beach";
+  if (t.includes("ski") || d.includes("ski") || t.includes("arctic") || d.includes("arctic") || t.includes("snow") || d.includes("snow")) return "Arctic";
+  if (t.includes("mountain") || d.includes("mountain") || t.includes("alpine") || d.includes("alpine") || t.includes("slopes")) return "Mountains";
+  if (t.includes("pool") || d.includes("pool") || t.includes("swim")) return "Amazing Pool";
+  if (t.includes("castle") || d.includes("castle") || t.includes("palace") || t.includes("historic") || d.includes("historic")) return "Castles";
+  if (t.includes("farm") || d.includes("farm") || t.includes("cottage") || d.includes("cottage") || t.includes("rustic") || d.includes("rustic")) return "Farms";
+  if (t.includes("island") || d.includes("island") || t.includes("fiji") || t.includes("maldives")) return "Island";
+  if (t.includes("camp") || d.includes("camp") || t.includes("treehouse") || d.includes("treehouse") || t.includes("tent") || t.includes("cabin") || d.includes("cabin")) return "Camping";
+  if (t.includes("loft") || d.includes("loft") || t.includes("apartment") || d.includes("apartment") || t.includes("room") || d.includes("room")) return "Rooms";
+  if (t.includes("city") || d.includes("city") || t.includes("downtown") || d.includes("downtown") || t.includes("tokyo") || t.includes("boston") || t.includes("amsterdam")) return "Iconic City";
+  if (t.includes("safari") || d.includes("safari") || t.includes("desert") || d.includes("desert") || t.includes("dubai") || t.includes("phuket") || t.includes("bali")) return "Foreign Trip";
+  
+  return "Trending";
+}
+
 const initDB = async ()=>{
-  initData.data=initData.data.map((obj)=>({...obj,owner:'67268cc4c34a1a861b8b3943'}))
+  initData.data=initData.data.map((obj)=>({
+    ...obj,
+    owner:'67268cc4c34a1a861b8b3943', // static owner id for seed
+    category: getCategory(obj.title, obj.description)
+  }))
   initData.data=await initData.data.map(async (obj)=>{
     let geoData = await geocodingClient.forwardGeocode({
       query: obj.location,
